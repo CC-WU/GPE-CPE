@@ -22,7 +22,8 @@ int main(void) {
 	Point pointRecords[1000]; // 點 array 
 	Equation equations[1000]; // 線 array 
 	float x1, x2, y1, y2, b_constant, e_constant, det, aa, bb, cc, ae, bd, ce, bf, af, cd;
-	int i, j, h, n, sn, num, overlap_marks, k;
+	int i, j, h, n, sn, num, k, count = 0;
+	bool overlap_marks;
 	float gradient[1000]; // 斜率 array 
 	
 	cin >> n;
@@ -31,7 +32,7 @@ int main(void) {
 		// 初始化 
 		num = 0; // 直線方程式係數記數用 
 		k = 0; // 斜率記數用 
-		overlap_marks = 0; // 重疊記號 
+		overlap_marks = false; // 重疊記號 
 		gradient[1000] = {0};
 		equations[1000] = {0};
 		pointRecords[1000] = {0};
@@ -77,7 +78,7 @@ int main(void) {
 					}
 				}
 				else { // 正常情況 
-					aa = (y1 * e_constant - y2 * b_constant) / det;
+					aa = (y1 * e_constant - b_constant * y2) / det;
 					bb = -1; // 原始值 
 					cc = -((-x2 * y1 + x1 * y2) / det);
 				}
@@ -98,7 +99,7 @@ int main(void) {
 					  	{
 						    if (ce - bf == 0 && bb != 0 && equations[h].b != 0) { // 兩線重疊  
 						    	// printf("Two lines overlap\n");
-						    	overlap_marks = 1;
+						    	overlap_marks = true;
 						    	break;
 							}
 						    else { // 兩線是並行的  
@@ -114,7 +115,7 @@ int main(void) {
 					}
 				}
 			  	
-			  	if (overlap_marks == 0) { // 兩線並未重疊，記錄此直線方程式係數 
+			  	if (overlap_marks == false) { // 兩線並未重疊，記錄此直線方程式係數 
 					equations[num].a = aa;
 					equations[num].b = bb;
 					equations[num].c = cc;
@@ -122,7 +123,7 @@ int main(void) {
 					num++;
 				}
 								
-				overlap_marks = 0;
+				overlap_marks = false;
 				k++;
 			}
 			// cout << "===================================" << endl;
